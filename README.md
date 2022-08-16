@@ -1,5 +1,5 @@
 # Install Docker Engine on Ubuntu
-![Docker](https://upload.wikimedia.org/wikipedia/commons/7/79/Docker_%28container_engine%29_logo.png)
+![Docker](https://i.servimg.com/u/f47/20/03/34/92/tm/blog_p10.gif)
   
 ## Set up the repository
 
@@ -36,5 +36,22 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
  ```
+
+ ## Install Docker Compose
+
+To be able to process any yml file you'll need the following code:
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+```
+
+# Install ctop to check our containers
+![ctop](https://www.tecmint.com/wp-content/uploads/2018/07/Docker-Container-Monitoring.gif)
+
+```
+sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.1/ctop-0.7.1-linux-amd64  -O /usr/local/bin/ctop
+sudo chmod +x /usr/local/bin/ctop
+```
 
 https://docs.docker.com/engine/install/ubuntu/
