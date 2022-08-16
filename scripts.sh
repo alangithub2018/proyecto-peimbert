@@ -8,7 +8,6 @@ sudo apt-get update \ install \
     lsb-release
 
 sudo mkdir -p /etc/apt/keyrings
-
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg 
 --dearmor -o /etc/apt/keyrings/docker.gpg
 
@@ -23,18 +22,17 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io 
 docker-compose-plugin
 
-sudo apt-get install ca-certificates curl gnupg lsb-release
-curl -fsSL https://azlux.fr/repo.gpg.key | sudo gpg --dearmor -o 
-/usr/share/keyrings/azlux-archive-keyring.gpg
+###########################Install docker################################
+#########################################################################
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) 
-signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] 
-http://packages.azlux.fr/debian \
-  $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/azlux.list 
->/dev/null
+###########################Install docker compose #######################
+#########################################################################
 
-####################################Install docker#######################
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+###########################Install docker compose #######################
 #########################################################################
 
 ####################################Install ctop#########################
