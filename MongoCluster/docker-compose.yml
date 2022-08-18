@@ -1,73 +1,44 @@
-version: '3.7'
+version: '3.8'
 
 services:
-
-  mongodb_1:
-    image: mongo:5
-    hostname: 54.183.245.241
-    command: --replSet rs1 --keyFile /etc/mongo-replication.key
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-    ports:
-      - 27018:27017
+  mongo1:
+    container_name: mongo1
+    image: mongo:4.4
     volumes:
-      - mongodb_data_1:/data/db
-      - /home/ubuntu/mongo_keys/security.keyFile:/etc/mongo-replication.key
-
-  mongodb_2:
-    image: mongo:5
-    hostname: 54.183.245.241
-    command: --replSet rs1 --keyFile /etc/mongo-replication.key
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      - ~/mongors/data1:/data/db
+      - ./rs-init.sh:/scripts/rs-init.sh
+    networks:
+      - mongors-network
     ports:
-      - 27019:27017
+      - 27021:27017
+    links:
+      - mongo2
+      - mongo3
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
+  mongo2:
+    container_name: mongo2
+    image: mongo:4.4
     volumes:
-      - mongodb_data_2:/data/db
-      - /home/ubuntu/mongo_keys/security.keyFile:/etc/mongo-replication.key
-    depends_on:
-      - mongodb_1
-
-  mongodb_3:
-    image: mongo:5
-    hostname: 54.183.245.241
-    command: --replSet rs1 --keyFile /etc/mongo-replication.key
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      - ~/mongors/data2:/data/db
+    networks:
+      - mongors-network
     ports:
-      - 27020:27017
+      - 27022:27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
+  mongo3:
+    container_name: mongo3
+    image: mongo:4.4
     volumes:
-      - mongodb_data_3:/data/db
-      - /home/ubuntu/mongo_keys/security.keyFile:/etc/mongo-replication.key
-    depends_on:
-      - mongodb_1
+      - ~/mongors/data3:/data/db
+    networks:
+      - mongors-network
+    ports:
+      - 27023:27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
-volumes:
-  mongodb_data_1:
-  mongodb_data_2:
-  mongodb_data_3:
-
-
-# docker network ls
-
-# docker run --rm --network clustermongo_default mongo:5 mongosh --username admin --password admin --host 54.183.245.241:27018  --authenticationDatabase admin admin --eval "$(< init-replica-set.js)"
-
-# docker run --rm --network clustermongo_default mongo:5 mongosh --username admin --password admin --host 54.183.245.241:27018  --authenticationDatabase admin admin --eval "rs.status()"
-
-# docker run --rm --network clustermongo_default mongo:5 mongosh --username admin --password admin --host 54.183.245.241:27018 --authenticationDatabase admin admin --eval "$(< init-user.js)"
-
-# docker run --rm -i -t --network clustermongo_default mongo:5 mongosh --username admin --password admin --host 54.183.245.241:27018,54.183.245.241:27019,54.183.245.241:27020 --authenticationDatabase admin admin
-
-
-# telnet 54.183.245.241 27017
-
-
-# mongodb://my_user:my_pass@54.183.245.241:27018,54.183.245.241:27019,54.183.245.241:27020/my_database?replicaSet=rs1
-
-
-# rs1:PRIMARY> use my_database
-# switched to db my_database
-# rs1:PRIMARY> db.auth("my_user","my_pass")
+networks:
+  mongors-network:
+    driver: bridge
