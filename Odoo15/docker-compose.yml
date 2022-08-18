@@ -9,6 +9,7 @@ services:
             - odoo-web-data:/var/lib/odoo
         ports:
             - "8069:8069"
+            - "8000:8000"
         depends_on:
             - postgres
     postgres:
