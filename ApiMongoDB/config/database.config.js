@@ -1,3 +1,4 @@
 module.exports = {
-    url: 'mongodb://192.168.1.100:27021/stps'
+    url:"mongodb://"+process.env.MONGO_DB_IP+":"+process.env.MONGO_DB_PRIMARY_PORT+"/"+process.env.MONGO_DB_NAME
 }
+
