@@ -2,7 +2,8 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
 import requests
 import json
-
+import os
+BASE_URL = "http://"+os.environ['MONGO_DB_IP']+":3000/statisticalsector"
 
 class stps(models.Model):
     _name = 'stps.statistical_sector'
@@ -42,19 +43,18 @@ class stps(models.Model):
 
     @api.model
     def create(self, values):
-        # Add code here
-        URL = 'http://192.168.1.100:3000/statisticalsector'
-        response = requests.post(URL, json=values)
+        # Add code here    
+        response = requests.post(BASE_URL, json=values)
         if response.status_code in [200]:
             response_dict = json.loads(response.text)
             values.update({'_id': response_dict['_id']})
             return super(stps, self).create(values)
         else:
             raise ValidationError(
-                "Error al registrar código de error %s" % (response.status_code))
+                "Error al registrar código de error %s %s" % (response.status_code,BASE_URL))
 
     def write(self, values):
-        URL = 'http://192.168.1.100:3000/statisticalsector/%s' % (self._id)
+        
         new_vals = {
             "year": self.year,
             "month": self.month,
@@ -66,7 +66,7 @@ class stps(models.Model):
             "municipality_id": self.municipality_id.id
         }
         new_vals.update(values)
-        response = requests.put(URL, json=new_vals)
+        response = requests.put('%s/%s' % (BASE_URL,self._id), json=new_vals)
         if response.status_code in [200]:
             return super().write(values)
         else:
@@ -75,9 +75,8 @@ class stps(models.Model):
 
     def unlink(self):
         
-        for record in self:
-            URL = 'http://192.168.1.100:3000/statisticalsector/%s' % (record._id)
-            response = requests.delete(URL)
+        for record in self:            
+            response = requests.delete('%s/%s' % (BASE_URL,record._id))
             if response.status_code in [200]:
                 super(stps, record).unlink()
             else:
@@ -89,7 +88,6 @@ class stps(models.Model):
 
     def copy(self, default=None):
         default = dict(default or {})
-        URL = 'http://192.168.1.100:3000/statisticalsector'
         default.update( {
             "year": self.year,
             "month": self.month,

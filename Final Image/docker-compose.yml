@@ -11,8 +11,12 @@ services:
         ports:
             - "8069:8069"
             - "8000:8000"
+        restart: always
         depends_on:
             - postgres
+            - stps_api_mongo
+        environment:
+            - MONGO_DB_IP=${MONGO_DB_IP}
     postgres:
         image: postgres:14
         environment:
@@ -63,9 +67,24 @@ services:
       restart: always
       entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
+    stps_api_mongo:
+      build: ./Final Image/ApiMongoDB
+      # command: bundle exec jekyll serve --incremental --host 0.0.0.0
+      ports:
+        - "3000:3000" # jekyll serve
+      volumes:
+        - stps-api-data:/app
+
 networks:
   mongors-network:
     driver: bridge
+
+#Api Mongo
+
+
+
+    
+
 
 volumes:
     odoo-web-data:
@@ -73,4 +92,5 @@ volumes:
     mongo-db-1:
     mongo-db-2:
     mongo-db-3:
+    stps-api-data:
 
