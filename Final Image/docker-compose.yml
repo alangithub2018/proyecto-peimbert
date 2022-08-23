@@ -67,14 +67,29 @@ services:
       restart: always
       entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
-    stps_api_mongo:
+    stps_api_mongo1:
+      container_name: stps_api_mongo1
       build: ./Final Image/ApiMongoDB
-      # command: bundle exec jekyll serve --incremental --host 0.0.0.0
       ports:
-        - "3000:3000" # jekyll serve
+        - "3000:3000"
       volumes:
-        - stps-api-data:/app
+        - stps-api-data1:/app
 
+    stps_api_mongo2:
+      container_name: stps_api_mongo2
+      build: ./Final Image/ApiMongoDB
+      ports:
+        - "3001:3000"
+      volumes:
+        - stps-api-data2:/app
+
+    stps_api_mongo3:
+      container_name: stps_api_mongo3
+      build: ./Final Image/ApiMongoDB
+      ports:
+        - "3002:3000"
+      volumes:
+        - stps-api-data3:/app
 networks:
   mongors-network:
     driver: bridge
@@ -92,5 +107,7 @@ volumes:
     mongo-db-1:
     mongo-db-2:
     mongo-db-3:
-    stps-api-data:
+    stps-api-data1:
+    stps-api-data2:
+    stps-api-data3:
 
