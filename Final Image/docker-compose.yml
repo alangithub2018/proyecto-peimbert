@@ -90,6 +90,8 @@ services:
         - "3002:3000"
       volumes:
         - stps-api-data3:/app
+
+
 networks:
   mongors-network:
     driver: bridge
