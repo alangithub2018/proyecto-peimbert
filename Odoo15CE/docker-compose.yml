@@ -5,8 +5,8 @@ services:
         container_name: odoo
         image: odoo:15.0
         volumes:
-            - ./Odoo15CE/addons-extra:/mnt/extra-addons
-            - ./Odoo15CE/etc/odoo:/etc/odoo
+            - ./addons-extra:/mnt/extra-addons
+            - ./etc/odoo:/etc/odoo
             - odoo-web-data:/var/lib/odoo
         ports:
             - "8069:8069"
