@@ -1,14 +1,29 @@
-version: '3'
+version: '3.3'
 services:
-  stps_api_mongo:
-    build: .
-    # command: bundle exec jekyll serve --incremental --host 0.0.0.0
-    ports:
-      - "8080:8080" # jekyll serve
-    restart: always
-    volumes:
-      - stps-api-data:/app
-    
+    stps_api_mongo1:
+      container_name: stps_api_mongo1
+      build: ./Final_Image/ApiMongoDB
+      ports:
+        - "3000:3000"
+      volumes:
+        - stps-api-data1:/app
 
-volumes:
-    stps-api-data:
+    stps_api_mongo2:
+      container_name: stps_api_mongo2
+      build: ./Final_Image/ApiMongoDB
+      ports:
+        - "3001:3000"
+      volumes:
+        - stps-api-data2:/app
+
+    stps_api_mongo3:
+      container_name: stps_api_mongo3
+      build: ./Final_Image/ApiMongoDB
+      ports:
+        - "3002:3000"
+      volumes:
+        - stps-api-data3:/app
+volumes:    
+    stps-api-data1:
+    stps-api-data2:
+    stps-api-data3:
