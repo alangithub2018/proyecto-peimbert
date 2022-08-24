@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.3'
 services:
     stps_api_mongo1:
       container_name: stps_api_mongo1
