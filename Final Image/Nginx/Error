@@ -1,0 +1,8 @@
+Certbot failed to authenticate some domains (authenticator: webroot). The Certificate Authority reported these problems:
+  Domain: app.4gingenieria.com
+  Type:   connection
+  Detail: 34.125.229.176: Fetching http://app.4gingenieria.com/.well-known/acme-challenge/gR4E16WiNPgb3qReHNkcny2CCe_cPXiotBNrJizgQHw: Timeout during connect (likely firewall problem)
+
+
+el error surge por que debe de tener un registro de dns que apunte a 34.125.229.176
+es decir la ip publica de servidor
