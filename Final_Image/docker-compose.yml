@@ -68,7 +68,7 @@ services:
 
     stps_api_mongo1:
       container_name: stps_api_mongo1
-      build: ./Final Image/ApiMongoDB
+      build: ./Final_Image/ApiMongoDB
       ports:
         - "3000:3000"
       volumes:
@@ -76,7 +76,7 @@ services:
 
     stps_api_mongo2:
       container_name: stps_api_mongo2
-      build: ./Final Image/ApiMongoDB
+      build: ./Final_Image/ApiMongoDB
       ports:
         - "3001:3000"
       volumes:
@@ -84,7 +84,7 @@ services:
 
     stps_api_mongo3:
       container_name: stps_api_mongo3
-      build: ./Final Image/ApiMongoDB
+      build: ./Final_Image/ApiMongoDB
       ports:
         - "3002:3000"
       volumes:
