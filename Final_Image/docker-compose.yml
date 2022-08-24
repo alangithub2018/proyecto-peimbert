@@ -14,6 +14,7 @@ services:
         restart: always
         depends_on:
             - postgres
+            - stps_api_mongo
         environment:
             - MONGO_DB_IP=${MONGO_DB_IP}
     postgres:
