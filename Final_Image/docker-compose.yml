@@ -37,7 +37,7 @@ services:
       networks:
         - mongors-network
       ports:
-        - 27021:27017
+        - 192.168.122.1:27021:27017
       links:
         - mongo2
         - mongo3
@@ -51,7 +51,7 @@ services:
       networks:
         - mongors-network
       ports:
-        - 27022:27017
+        - 192.168.122.1:27022:27017
       restart: always
       entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
     mongo3:
@@ -62,7 +62,7 @@ services:
       networks:
         - mongors-network
       ports:
-        - 27023:27017
+        - 192.168.122.1:27023:27017
       restart: always
       entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
