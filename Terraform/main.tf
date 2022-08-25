@@ -52,35 +52,23 @@ resource "google_compute_instance" "stpsinstance" {
     }
   }
 
-  provisioner "file" {
-   # source file name on the local machine where you execute terraform plan and apply
-   source      = "data/init.sh"
-   # destination is the file location on the newly created instance
-   destination = "/tmp/init.sh"
-   connection {
+  connection {
      host        = google_compute_address.static.address
      type        = "ssh"
-     # username of the instance would vary for each account refer the OS Login in GCP documentation
      user        = var.user 
      timeout     = "500s"
-     # private_key being used to connect to the VM. ( the public key was copied earlier using metadata )
      private_key = file(var.privatekeypath)
    }
+
+  provisioner "file" {
+   source      = "data/init.sh"
+   destination = "/tmp/init.sh"
  }
 
   provisioner "remote-exec" {
-   connection {
-     host        = google_compute_address.static.address
-     type        = "ssh"
-     user        = var.user 
-     timeout     = "500s"
-     private_key = file(var.privatekeypath)
-   }
-  
    inline = [
-     "chmod a+x /tmp/init.sh",
-     "sed -i -e 's/\r$//' /tmp/init.sh",
-     "sudo /tmp/init.sh"
+     "chmod +x /tmp/init.sh",
+     "/tmp/init.sh",
    ]
  }
 
